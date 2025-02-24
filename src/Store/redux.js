@@ -1,4 +1,5 @@
 import {createStore} from "redux"
+import { createSlice,configureStore } from "@reduxjs/toolkit"
 
 const storeCreate = (state={counter:0},action)=>{
     if(action.type ==="incrementby5"){
@@ -11,5 +12,32 @@ const storeCreate = (state={counter:0},action)=>{
     }
     return state
 }
-const store = createStore(storeCreate);
+
+const initialAuthState ={
+    isAuthenticate:false,
+}
+const authSlice =createSlice({
+
+        name:"authentication",
+        initialState:initialAuthState,
+        reducers:{
+            login(state){
+                state.isAuthenticate=true;
+
+            },
+            logout(state){
+                state.isAuthenticate=false
+            },
+        }
+
+
+
+      });
+
+
+
+const store = configureStore({
+    reducer:{auth:authSlice.reducer}
+})
+export const AuthAction =authSlice.actions;
 export default store;
